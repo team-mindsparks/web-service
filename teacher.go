@@ -14,19 +14,61 @@ var (
 
 type Service struct {
 	r *mux.Router
+	t TreasureHunts
 }
 
 func (s *Service) InitRoutes() {
+	getRouter := s.r.Methods("GET").Subrouter()
+	getRouter.HandleFunc("/hunts", s.GetHunts)
+
 	postRouter := s.r.Methods("POST").Subrouter()
 	postRouter.HandleFunc("/photo", s.PostPhoto)
+	postRouter.HandleFunc("/hunt", s.PostHunt)
 }
 
+// GET /hunts
+//
+// Get all the treasure hunts
+func (s *Service) GetHunts(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, s.t.Hunts())
+}
+
+// POST /hunt
+//
+// Create a new treasure hunt
+func (s *Service) PostHunt(w http.ResponseWriter, r *http.Request) {
+	// read form fields
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Could not parse form", http.StatusInternalServerError)
+		return
+	}
+
+	// try to create a new hunt
+	h := Hunt{}
+	if h.Name = r.PostFormValue("title"); len(h.Name) == 0 {
+		http.Error(w, "Invalid hunt name", http.StatusBadRequest)
+	}
+
+	if h.Description = r.PostFormValue("description"); len(h.Description) == 0 {
+		http.Error(w, "Invalid hunt description", http.StatusBadRequest)
+	}
+
+	// add the hunt
+	if err := s.t.NewHunt(h); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+}
+
+// POST /photo
 func (s *Service) PostPhoto(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
 	//get the multipart reader for the request.
 	reader, err := r.MultipartReader()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		out := fmt.Sprintf(`{"msg": %v}`, err.Error())
+		http.Error(w, out, http.StatusInternalServerError)
 		return
 	}
 
@@ -55,5 +97,5 @@ func (s *Service) PostPhoto(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	//display success message.
-	fmt.Fprintln(w, "Sorted!")
+	w.WriteHeader(http.StatusNoContent)
 }
