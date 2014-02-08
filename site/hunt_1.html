@@ -87,20 +87,19 @@
 
 			<section>
 				<section>
-				<h3>{{.Name}}</h3>
-                <h5>{{.Description}}<h5>
+				<h2>{{.Name}}</h2>
+                <h3>{{.Description}}<h3>
 				<h4>Clues</h4>
-				<a class="small button" href="/hunts/{{.Name}}/clue">Add new clue</a>
                 <ol>
                     {{range .Clues}}
 					<li>
-                        <p>{{.Description}}</p>
-                        <p>{{.Name}}</p>
-                        <img src="{{.Photo.URL}}"/>
+                        <stong>{{.Description}}</strong>
+                        <em>{{.Name}}</em>
+                        <img src="{{.Photo.URL}}" style="height:40px;"/>
 					</li>
                     {{end}}
 				</ol>
-
+                <a class="small button" href="/hunts/{{.Name}}/clue">Add new clue</a>
 			</section>
 
 			<!-- End Clue Details -->
