@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/nu7hatch/gouuid"
@@ -8,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var (
@@ -35,15 +37,27 @@ func (s *Service) InitRoutes() {
 //
 // Get all the treasure hunts
 func (s *Service) GetHunts(w http.ResponseWriter, r *http.Request) {
+	hunts := []Hunt{}
+	for _, h := range s.t.Hunts() {
+		hunts = append(hunts, *h)
+	}
+
+	// send JSON payload to clients
+	if strings.HasPrefix(r.Header.Get("Content-Type"), "application/json") {
+		body, err := json.Marshal(hunts)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(w, "%v", body)
+		return
+	}
+
 	t, err := template.ParseFiles("site/index.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
-	}
-
-	hunts := []Hunt{}
-	for _, h := range s.t.Hunts() {
-		hunts = append(hunts, *h)
 	}
 
 	if err := t.Execute(w, hunts); err != nil {
