@@ -92,7 +92,8 @@
 				<h4>Clues</h4>
 				<a class="small button" href="/hunts/{{.Name}}/clue">Add new clue</a>
                 {{.Clues}}
-				<ol>
+                <ol>{{range .Clues}}<li>{{.Description}}</li>{{end}}</ol>
+                <ol>
                     {{range .Clues}}
 					<li>
                         {{.Description}}
