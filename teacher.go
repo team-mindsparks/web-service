@@ -84,6 +84,18 @@ func (s *Service) GetHunt(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// send JSON payload to clients
+	if strings.HasPrefix(r.Header.Get("Content-Type"), "application/json") {
+		body, err := json.Marshal(h)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(w, "%v", string(body))
+		return
+	}
+
 	if err := t.Execute(w, h); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
