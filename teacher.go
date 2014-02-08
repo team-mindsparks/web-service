@@ -171,7 +171,7 @@ func (s *Service) PostPhoto(w http.ResponseWriter, r *http.Request) {
 		photo := Photo{
 			UUID: u.String(),
 			Path: pth,
-			URL:  "http://88.226.156.181/photos/" + name,
+			URL:  "http://188.226.156.181/photos/" + name,
 		}
 
 		// add the photo to the service
