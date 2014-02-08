@@ -7,12 +7,12 @@
   <meta name="viewport" content="width=device-width">
   <title>Mindsparks</title>
 
-  
+
   <link rel="stylesheet" href="css/foundation.css">
   <link rel="stylesheet" href="css/styles.css">
   <link href='http://fonts.googleapis.com/css?family=Jolly+Lodger' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  
+
   <script src="js/vendor/custom.modernizr.js"></script>
 
 </head>
@@ -65,38 +65,20 @@
 
 			<section>
 				<section>
-				<h3>Hunt 1</h3>
+				<h3>{{.Name}}</h3>
+                <h5>{{.Description}}<h5>
 				<h4>Clues</h4>
 				<a class="small button" href="new.html">Add new clue</a>
 				<ol>
+                    {{range .Clues}}
 					<li>
 						<figure>
-						    <img src="./img/image.jpg" alt="Foo">
-						    <figcaption>This one</figcaption>
-						    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis bibendum quam, sed ultricies tellus varius ac. Sed ac felis in purus pulvinar mattis. Aliquam ut quam eu velit fermentum feugiat.</p>
+						    <img src="{{.Photo.Url}}" alt="Foo">
+						    <figcaption>{{.Name}}</figcaption>
+						    <p>{{.Description}}</p>
 						</figure>
 					</li>
-					<li>
-						<figure>
-						    <img src="./img/image.jpg" alt="Foo">
-						    <figcaption>That one</figcaption>
-						    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis bibendum quam, sed ultricies tellus varius ac. Sed ac felis in purus pulvinar mattis. Aliquam ut quam eu velit fermentum feugiat.</p>
-						</figure>
-					</li>
-					<li>
-						<figure>
-						    <img src="./img/image.jpg" alt="Foo">
-						    <figcaption>Another one</figcaption>
-						    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis bibendum quam, sed ultricies tellus varius ac. Sed ac felis in purus pulvinar mattis. Aliquam ut quam eu velit fermentum feugiat.</p>
-						</figure>
-					</li>
-					<li>
-						<figure>
-						    <img src="./img/image.jpg" alt="Foo">
-						    <figcaption>Another one</figcaption>
-						    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis bibendum quam, sed ultricies tellus varius ac. Sed ac felis in purus pulvinar mattis. Aliquam ut quam eu velit fermentum feugiat.</p>
-						</figure>
-					</li>
+                    {{end}}
 				</ol>
 
 			</section>
@@ -108,10 +90,10 @@
 
 	<form>
 
-	<div class="row">
+	<!--<div class="row">
 		<div class="large-12 columns">
 
-			<!-- Start Create New Treasure Hunt -->
+			<!-- Start Create New Treasure Hunt
 
 			<section>
 				<h3>Create New Treasure Hunt</h3>
@@ -132,10 +114,10 @@
 
 			</section>
 
-			<!-- End Create New Treasure Hunt -->
+			<!-- End Create New Treasure Hunt
 
 		</div>
-	</div>
+	</div>-->
 
 	</form>
 
@@ -148,46 +130,46 @@
   ('__proto__' in {} ? 'js/vendor/zepto' : 'js/vendor/jquery') +
   '.js><\/script>')
   </script>
-  
+
   <script src="js/foundation.min.js"></script>
   <script src="js/foundation/foundation.topbar.js"></script>
   <script src="js/vendor/custom.modernizr.js"></script>
   <!--
-  
+
   <script src="js/foundation/foundation.js"></script>
-  
+
   <script src="js/foundation/foundation.alerts.js"></script>
-  
+
   <script src="js/foundation/foundation.clearing.js"></script>
-  
+
   <script src="js/foundation/foundation.cookie.js"></script>
-  
+
   <script src="js/foundation/foundation.dropdown.js"></script>
-  
+
   <script src="js/foundation/foundation.forms.js"></script>
-  
+
   <script src="js/foundation/foundation.joyride.js"></script>
-  
+
   <script src="js/foundation/foundation.magellan.js"></script>
-  
+
   <script src="js/foundation/foundation.orbit.js"></script>
-  
+
   <script src="js/foundation/foundation.reveal.js"></script>
-  
+
   <script src="js/foundation/foundation.section.js"></script>
-  
+
   <script src="js/foundation/foundation.tooltips.js"></script>
-  
+
   <script src="js/foundation/foundation.topbar.js"></script>
-  
+
   <script src="js/foundation/foundation.interchange.js"></script>
-  
+
   <script src="js/foundation/foundation.placeholder.js"></script>
-  
+
   <script src="js/foundation/foundation.abide.js"></script>
-  
+
   -->
-  
+
   <script>
     $(document).foundation();
   </script>

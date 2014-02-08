@@ -70,13 +70,23 @@ func (s *Service) GetHunts(w http.ResponseWriter, r *http.Request) {
 //
 // Get single treasure hunt
 func (s *Service) GetHunt(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("site/hunt_1.html")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	// get hunt using title from URL path
 	h, ok := s.t.Hunts()[mux.Vars(r)["hunt_title"]]
 	if !ok {
 		http.Error(w, "Hunt does not exist", http.StatusNotFound)
 		return
 	}
-	fmt.Fprintln(w, fmt.Sprintf("+%v", h))
+
+	if err := t.Execute(w, h); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
 
 // POST /hunt
