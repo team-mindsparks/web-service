@@ -74,5 +74,5 @@ type Clue struct {
 type Photo struct {
 	UUID string `json:"uuid"`
 	URL  string `json:"url"`
-	Path string
+	Path string `json:"-"`
 }
