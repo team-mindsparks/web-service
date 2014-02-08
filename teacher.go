@@ -22,6 +22,7 @@ func (s *Service) InitRoutes() {
 	gr := s.r.Methods("GET").Subrouter()
 	gr.HandleFunc("/hunts", s.GetHunts)
 	gr.HandleFunc("/hunts/{hunt_title}", s.GetHunt)
+	gr.HandleFunc("/photos", s.GetPhotos)
 
 	pr := s.r.Methods("POST").Subrouter()
 	pr.HandleFunc("/photo", s.PostPhoto)
@@ -63,15 +64,18 @@ func (s *Service) PostHunt(w http.ResponseWriter, r *http.Request) {
 	h := Hunt{}
 	if h.Name = r.PostFormValue("title"); len(h.Name) == 0 {
 		http.Error(w, "Invalid hunt name", http.StatusBadRequest)
+		return
 	}
 
 	if h.Description = r.PostFormValue("description"); len(h.Description) == 0 {
 		http.Error(w, "Invalid hunt description", http.StatusBadRequest)
+		return
 	}
 
 	// add the hunt
 	if err := s.t.NewHunt(h); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 }
 
@@ -111,6 +115,11 @@ func (s *Service) PostClue(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// GET /photos
+func (s *Service) GetPhotos(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "%+v", s.t.Photos())
+}
+
 // POST /photo
 func (s *Service) PostPhoto(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -135,7 +144,17 @@ func (s *Service) PostPhoto(w http.ResponseWriter, r *http.Request) {
 		if part.FileName() == "" {
 			continue
 		}
-		dst, err := os.Create("/tmp/teacher-photos/" + part.FileName())
+		// generate a uuid for file
+		u, err := uuid.NewV4()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// TODO should inspect MIME type here.
+		name := u.String() + ".jpg"
+		pth := "/tmp/teacher-photos/" + name
+		dst, err := os.Create(pth)
 		defer dst.Close()
 
 		if err != nil {
@@ -147,6 +166,16 @@ func (s *Service) PostPhoto(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		// generate a new Photo type and add to service
+		photo := Photo{
+			UUID: u.String(),
+			Path: pth,
+			URL:  "88.226.156.181:8080/photos/" + name,
+		}
+
+		// add the photo to the service
+		s.t.AddPhoto(photo)
 	}
 	//display success message.
 	w.WriteHeader(http.StatusNoContent)

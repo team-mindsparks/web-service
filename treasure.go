@@ -45,6 +45,12 @@ func (t *TreasureHunts) AddClue(huntTitle string, c Clue) error {
 	return nil
 }
 
+func (t *TreasureHunts) AddPhoto(p Photo) {
+	t.Lock()
+	defer t.Unlock()
+	t.photos[p.UUID] = p
+}
+
 // get all the photos
 func (t *TreasureHunts) Photos() map[string]Photo {
 	t.Lock()
@@ -59,7 +65,7 @@ type Hunt struct {
 }
 
 type Clue struct {
-	UUID        string `uuid`
+	UUID        string `json: "uuid"`
 	Photo       Photo  `json: "photo"`
 	Name        string `json: "name"`
 	Description string `json: "description"`
