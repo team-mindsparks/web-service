@@ -19,3 +19,12 @@ body {
 figcaption {
 	font-weight: 400;
 }
+
+#breadcrumbs {
+    font-family: 'Open Sans', sans-serif;
+    color:#CCC;
+}
+
+#breadcrumbs li {
+    list-style-type:none;
+}
