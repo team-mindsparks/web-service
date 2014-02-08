@@ -84,7 +84,7 @@
 			<!-- End Breadcrumb Trail -->
 		</div>
 	</div>
-	
+
 	<form action="/hunts/{{.HuntTitle}}/clue" method="POST">
 
 	<div class="row">
@@ -113,8 +113,8 @@
 	      		</label>
 
 	      		<label>Select Clue Image</label>
-                {{range .Photos}}
-      			   <img src="{{.URL}}" max-height="100px">
+                {{range Photos}}
+      			   <img src="{{.URL}}" height="100px">
       			   <input type="radio" name="photo_uuid" value="{{.UUID}}">
                 {{end}}
 	      		<input type="submit" value="Add" name="add" class="button">
