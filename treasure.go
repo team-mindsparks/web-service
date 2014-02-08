@@ -59,16 +59,16 @@ func (t *TreasureHunts) Photos() map[string]Photo {
 }
 
 type Hunt struct {
-	Name        string `json: "title"`
-	Description string `json: "description"`
-	Clues       []Clue `json: "clues"`
+	Name        string `json:"title"`
+	Description string `json:"description"`
+	Clues       []Clue `json:"clues"`
 }
 
 type Clue struct {
-	UUID        string `json: "uuid"`
-	Photo       Photo  `json: "photo"`
-	Name        string `json: "name"`
-	Description string `json: "description"`
+	UUID        string `json:"uuid"`
+	Photo       Photo  `json:"photo"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 type Photo struct {
