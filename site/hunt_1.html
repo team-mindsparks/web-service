@@ -91,17 +91,12 @@
                 <h5>{{.Description}}<h5>
 				<h4>Clues</h4>
 				<a class="small button" href="/hunts/{{.Name}}/clue">Add new clue</a>
-                {{.Clues}}
-                <ol>{{range .Clues}}<li>{{.Description}}</li>{{end}}</ol>
                 <ol>
                     {{range .Clues}}
 					<li>
-                        {{.Description}}
-<!-- 						<figure>
-						    <img src="{{.Photo.Url}}" alt="Foo">
-						    <figcaption>{{.Name}}</figcaption>
-						    <p>{{.Description}}</p>
-						</figure> -->
+                        <p>{{.Description}}</p>
+                        <p>{{.Name}}</p>
+                        <img src="{{.Photo.Url}}">
 					</li>
                     {{end}}
 				</ol>
