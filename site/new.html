@@ -114,7 +114,7 @@
 
 	      		<label>Select Clue Image</label>
                 {{range .Photos}}
-      			   <img src="{{.URL}}" height="100px">
+      			   <img src="{{.URL}}" style="height:300px;">
       			   <input type="radio" name="photo_uuid" value="{{.UUID}}">
                 {{end}}
 	      		<input type="submit" value="Add" name="add" class="button">
