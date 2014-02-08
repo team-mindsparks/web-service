@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/nu7hatch/gouuid"
+	"html/template"
 	"io"
 	"net/http"
 	"os"
@@ -34,7 +35,21 @@ func (s *Service) InitRoutes() {
 //
 // Get all the treasure hunts
 func (s *Service) GetHunts(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, fmt.Sprintf("%+v", s.t.Hunts()))
+	t, err := template.ParseFiles("site/index.html")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	hunts := []Hunt{}
+	for _, h := range s.t.Hunts() {
+		hunts = append(hunts, *h)
+	}
+
+	if err := t.Execute(w, hunts); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
 
 // GET /hunt/{title}
@@ -77,6 +92,7 @@ func (s *Service) PostHunt(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	http.Redirect(w, r, "/hunts", http.StatusFound)
 }
 
 // POST /hunts/{hunt_title}/clue
