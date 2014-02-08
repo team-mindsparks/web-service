@@ -25,6 +25,7 @@ func (s *Service) InitRoutes() {
 	gr := s.r.Methods("GET").Subrouter()
 	gr.HandleFunc("/hunts", s.GetHunts)
 	gr.HandleFunc("/hunts/{hunt_title}", s.GetHunt)
+	gr.HandleFunc("/hunts/{hunt_title}/clue", s.NewClue)
 	gr.HandleFunc("/photos", s.GetPhotos)
 
 	pr := s.r.Methods("POST").Subrouter()
@@ -117,6 +118,37 @@ func (s *Service) PostHunt(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.Redirect(w, r, "/hunts", http.StatusFound)
+}
+
+// GET /hunts/{hunt_title}/clue
+func (s *Service) NewClue(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("site/new.html")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// build payload
+	h, ok := s.t.Hunts()[mux.Vars(r)["hunt_title"]]
+	if !ok {
+		http.Error(w, "Hunt does not exist", http.StatusNotFound)
+		return
+	}
+
+	type Payload struct {
+		HuntTitle string
+		Photos    map[string]Photo
+	}
+
+	p := Payload{
+		HuntTitle: h.Name,
+		Photos:    s.t.Photos(),
+	}
+
+	if err := t.Execute(w, p); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
 
 // POST /hunts/{hunt_title}/clue

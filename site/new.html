@@ -58,7 +58,7 @@
 
 	</header>
 
-	<form>
+	<form action="/hunts/{{.HuntTitle}}/clue" method="POST">
 
 	<div class="row">
 		<div class="large-12 columns">
@@ -66,15 +66,15 @@
 			<!-- Start Create New Clue -->
 
 			<section>
-				<h3>Hunt 1</h3>
+				<h3>{{.HuntTitle}}</h3>
 				<h4>Create New Clue</h3>
 
 				<label>Clue Name
-	        		<input type="text" placeholder="Enter the Clue name">
+	        		<input type="text" name="name" placeholder="Enter the Clue name">
 	      		</label>
 
 	      		<label>Description
-	        		<input type="text" placeholder="Description">
+	        		<input type="text" name="desciption" placeholder="Description">
 	      		</label>
 
 	      		<label>Location
@@ -86,13 +86,10 @@
 	      		</label>
 
 	      		<label>Select Clue Image</label>
-	      			<img src="./img/image.jpg" alt="Foo">
-	      			<input type="radio" name="Thumbnail" value="One" id="#"><label for="One">One</label>
-	      			<img src="./img/image.jpg" alt="Foo">
-      				<input type="radio" name="Thumbnail" value="Two" id="#"><label for="Two">Two</label>
-      				<img src="./img/image.jpg" alt="Foo">
-      				<input type="radio" name="Thumbnail" value="Three" id="#"><label for="Two">Three</label>
-
+                {{range .Photos}}
+      			   <img src="{{.URL}}" max-height="100px">
+      			   <input type="radio" name="photo_uuid" value="{{.UUID}}">
+                {{end}}
 	      		<input type="submit" value="Add" name="add" class="button">
 
 			</section>
