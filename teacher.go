@@ -185,6 +185,9 @@ func (s *Service) PostClue(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
+	// redirect back to hunt
+	http.Redirect(w, r, "/hunts"+mux.Vars(r)["hunt_title"], http.StatusFound)
 }
 
 // GET /photos
