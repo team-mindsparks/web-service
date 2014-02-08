@@ -63,13 +63,23 @@
 
 			<!-- Start Breadcrumb Trail -->
 
-			<ul class="inline-list">
-			  <li><a href="#">Link 1</a></li>
-			  <li><a href="#">Link 2</a></li>
-			  <li><a href="#">Link 3</a></li>
-			  <li><a href="#">Link 4</a></li>
-			  <li><a href="#">Link 5</a></li>
-			</ul>
+			<ol class="breadcrumb">
+    			<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+			        <a href="Home" itemprop="url">
+			            <span itemprop="title">Home &rang; </span>
+			        </a>
+			    </li>
+			    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+			        <a href="http://www.example.com/news" itemprop="url">
+			            <span itemprop="title">News &rang; </span>
+			        </a>
+			    </li>  
+			    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+			        <a href="http://www.example.com/news/news-story.1" itemprop="url">
+			            <span itemprop="title">News Story 1 &rang; </span>
+			        </a>
+			    </li>
+			</ol>
 
 			<!-- End Breadcrumb Trail -->
 		</div>
