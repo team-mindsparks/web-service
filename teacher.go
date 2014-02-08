@@ -50,7 +50,7 @@ func (s *Service) GetHunts(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(w, "%v", body)
+		fmt.Fprintf(w, "%v", string(body))
 		return
 	}
 
