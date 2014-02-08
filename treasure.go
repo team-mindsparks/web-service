@@ -7,10 +7,11 @@ import (
 )
 
 type TreasureHunts struct {
-	hunts map[string]Hunt
+	hunts map[string]*Hunt
 	*sync.Mutex
 }
 
+// create a new hunt
 func (t *TreasureHunts) NewHunt(h Hunt) error {
 	t.Lock()
 	defer t.Unlock()
@@ -18,18 +19,15 @@ func (t *TreasureHunts) NewHunt(h Hunt) error {
 		// hunt already exists
 		return fmt.Errorf("Treasure hunt with name: %v already exists.", h.Name)
 	}
-	t.hunts[h.Name] = h
+	t.hunts[h.Name] = &h
 	return nil
 }
 
-func (t *TreasureHunts) Hunts() []Hunt {
+// get all the hunts
+func (t *TreasureHunts) Hunts() map[string]*Hunt {
 	t.Lock()
 	defer t.Unlock()
-	hunts := []Hunt{}
-	for _, v := range t.hunts {
-		hunts = append(hunts, v)
-	}
-	return hunts
+	return t.hunts
 }
 
 type Hunt struct {

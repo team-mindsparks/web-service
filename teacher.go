@@ -18,19 +18,34 @@ type Service struct {
 }
 
 func (s *Service) InitRoutes() {
-	getRouter := s.r.Methods("GET").Subrouter()
-	getRouter.HandleFunc("/hunts", s.GetHunts)
+	gr := s.r.Methods("GET").Subrouter()
+	gr.HandleFunc("/hunts", s.GetHunts)
+	gr.HandleFunc("/hunts/{hunt_title}", s.GetHunt)
 
-	postRouter := s.r.Methods("POST").Subrouter()
-	postRouter.HandleFunc("/photo", s.PostPhoto)
-	postRouter.HandleFunc("/hunt", s.PostHunt)
+	pr := s.r.Methods("POST").Subrouter()
+	pr.HandleFunc("/photo", s.PostPhoto)
+	pr.HandleFunc("/hunt", s.PostHunt)
 }
 
 // GET /hunts
 //
 // Get all the treasure hunts
 func (s *Service) GetHunts(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, s.t.Hunts())
+	fmt.Fprintln(w, fmt.Sprintf("%+v", s.t.Hunts()))
+}
+
+// GET /hunt/{title}
+//
+// Get single treasure hunt
+func (s *Service) GetHunt(w http.ResponseWriter, r *http.Request) {
+	// get titls from URL path
+	title := mux.Vars(r)["hunt_title"]
+	h, ok := s.t.Hunts()[title]
+	if !ok {
+		http.Error(w, "Hunt does not exist", http.StatusNotFound)
+		return
+	}
+	fmt.Fprintln(w, fmt.Sprintf("+%v", h))
 }
 
 // POST /hunt
