@@ -12,8 +12,9 @@ func main() {
 	s := Service{
 		r: mux.NewRouter(),
 		t: TreasureHunts{
-			hunts: map[string]*Hunt{},
-			Mutex: &sync.Mutex{},
+			hunts:  map[string]*Hunt{},
+			photos: map[string]Photo{},
+			Mutex:  &sync.Mutex{},
 		},
 	}
 

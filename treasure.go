@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 type TreasureHunts struct {
-	hunts map[string]*Hunt
+	hunts  map[string]*Hunt
+	photos map[string]Photo
 	*sync.Mutex
 }
 
@@ -30,6 +30,28 @@ func (t *TreasureHunts) Hunts() map[string]*Hunt {
 	return t.hunts
 }
 
+func (t *TreasureHunts) AddClue(huntTitle string, c Clue) error {
+	t.Lock()
+	defer t.Unlock()
+	// does the hunt exist?
+	h, ok := t.hunts[huntTitle]
+	if !ok {
+		// hunt does not exist
+		return fmt.Errorf("Treasure hunt with name: %v does not exist.", huntTitle)
+	}
+
+	// add the clue to the clue list in the hunt
+	h.Clues = append(h.Clues, c)
+	return nil
+}
+
+// get all the photos
+func (t *TreasureHunts) Photos() map[string]Photo {
+	t.Lock()
+	defer t.Unlock()
+	return t.photos
+}
+
 type Hunt struct {
 	Name        string `json: "title"`
 	Description string `json: "description"`
@@ -37,16 +59,14 @@ type Hunt struct {
 }
 
 type Clue struct {
-	Id          int     `Id`
-	Photo       []Photo `json: "photos"`
-	Name        string  `json: "name"`
-	Description string  `json: "description"`
+	UUID        string `uuid`
+	Photo       Photo  `json: "photo"`
+	Name        string `json: "name"`
+	Description string `json: "description"`
 }
 
 type Photo struct {
-	Id          int       `json:"id"`
-	URL         string    `json:"url"`
-	Uploaded    time.Time `json: "uploaded"`
-	Path        string
-	Fingerprint []byte `json:"fingerprint"`
+	UUID string `json:"uuid"`
+	URL  string `json:"url"`
+	Path string
 }

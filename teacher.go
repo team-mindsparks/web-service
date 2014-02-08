@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/nu7hatch/gouuid"
 	"io"
 	"net/http"
 	"os"
@@ -25,6 +26,7 @@ func (s *Service) InitRoutes() {
 	pr := s.r.Methods("POST").Subrouter()
 	pr.HandleFunc("/photo", s.PostPhoto)
 	pr.HandleFunc("/hunt", s.PostHunt)
+	pr.HandleFunc("/hunts/{hunt_title}/clue", s.PostClue)
 }
 
 // GET /hunts
@@ -38,9 +40,8 @@ func (s *Service) GetHunts(w http.ResponseWriter, r *http.Request) {
 //
 // Get single treasure hunt
 func (s *Service) GetHunt(w http.ResponseWriter, r *http.Request) {
-	// get titls from URL path
-	title := mux.Vars(r)["hunt_title"]
-	h, ok := s.t.Hunts()[title]
+	// get hunt using title from URL path
+	h, ok := s.t.Hunts()[mux.Vars(r)["hunt_title"]]
 	if !ok {
 		http.Error(w, "Hunt does not exist", http.StatusNotFound)
 		return
@@ -71,6 +72,42 @@ func (s *Service) PostHunt(w http.ResponseWriter, r *http.Request) {
 	// add the hunt
 	if err := s.t.NewHunt(h); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+}
+
+// POST /hunts/{hunt_title}/clue
+func (s *Service) PostClue(w http.ResponseWriter, r *http.Request) {
+	// read form fields
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Could not parse form", http.StatusInternalServerError)
+		return
+	}
+
+	// try to create a new clue
+	u, err := uuid.NewV4()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	c := Clue{UUID: u.String()}
+
+	c.Name = r.PostFormValue("name")
+	if c.Description = r.PostFormValue("description"); len(c.Description) == 0 {
+		http.Error(w, "A clue must have a description", http.StatusBadRequest)
+		return
+	}
+
+	// do we have the specified photo available?
+	var ok bool
+	if c.Photo, ok = s.t.Photos()[r.PostFormValue("photo_uuid")]; !ok {
+		msg := fmt.Sprintf("No photo with id %v exists", r.PostFormValue("photo_uuid"))
+		http.Error(w, msg, http.StatusBadRequest)
+		return
+	}
+
+	if err := s.t.AddClue(mux.Vars(r)["hunt_title"], c); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 }
 
