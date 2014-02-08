@@ -22,5 +22,5 @@ func main() {
 	s.InitRoutes()
 
 	http.Handle("/", s.r)
-	log.Fatal(http.ListenAndServe(":8080", http.DefaultServeMux))
+	log.Fatal(http.ListenAndServe("127.0.0.1:8080", http.DefaultServeMux))
 }
