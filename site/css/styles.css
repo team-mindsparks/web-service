@@ -24,6 +24,7 @@ figcaption {
     font-family: 'Open Sans', sans-serif;
     color:#CCC;
     max-width: 100%;
+    padding: 1.25em;
 }
 
 .panel {
