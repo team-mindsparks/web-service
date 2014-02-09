@@ -118,10 +118,16 @@
 	      		</label> -->
 
 	      		<label>Select Clue Image</label>
-                {{range .Photos}}
-      			   <img src="{{.URL}}" style="height:300px;">
-      			   <input type="radio" name="photo_uuid" value="{{.UUID}}">
-                {{end}}
+		      		<div class="small-12 small-centered columns">
+					    <ul class="small-block-grid-4 large-block-grid-4 inline-list">
+				      		<li>
+				                {{range .Photos}}
+				      			   <img src="{{.URL}}" style="height:300px;"></br>
+				      			   <input type="radio" name="photo_uuid" value="{{.UUID}}">
+				                {{end}}
+				            </li>
+		                </ul>
+		            </div>
 	      		<input type="submit" value="Add" name="add" class="button small">
 
 			</section>
