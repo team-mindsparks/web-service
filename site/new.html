@@ -97,20 +97,24 @@
 				<h4>Create New Clue</h3>
 
 				<label>Clue Name
-	        		<input type="text" name="name" placeholder="Enter the Clue name">
+	        		<input type="text" name="name" placeholder="a name for the clue">
 	      		</label>
 
 	      		<label>Description
-	        		<input type="text" name="description" placeholder="Description">
+	        		<input type="text" name="description" placeholder="the clue itself">
 	      		</label>
 
-	      		<label>Location
+                <label>Clue Fact
+                    <input type="text" name="fact" placeholder="A fact about the clue!">
+                </label>
+
+<!-- 	      		<label>Location
 	        		<input type="text" placeholder="Location">
 	      		</label>
 
 	      		<label>Order No.
 	        		<input type="text" placeholder="Number">
-	      		</label>
+	      		</label> -->
 
 	      		<label>Select Clue Image</label>
                 {{range .Photos}}

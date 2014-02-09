@@ -188,6 +188,7 @@ func (s *Service) PostClue(w http.ResponseWriter, r *http.Request) {
 	c := Clue{UUID: u.String()}
 
 	c.Name = r.PostFormValue("name")
+	c.Fact = r.PostFormValue("fact")
 	if c.Description = r.PostFormValue("description"); len(c.Description) == 0 {
 		http.Error(w, "A clue must have a description", http.StatusBadRequest)
 		return
