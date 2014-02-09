@@ -47,7 +47,7 @@
 			      </div>
 
 			  </li>
-			        <input type="submit" value="Login" name="login" class="button">
+			        <input type="submit" value="Login" name="login" class="button small">
   			</form>
 		    </ul>
 		    <!-- End Right Nav Section -->
@@ -71,7 +71,7 @@
 			    </li>
 			    <li class="current" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
 			        <a href="/hunts/{{.Name}}" itemprop="url">
-			            <span itemprop="title">{{.Name}}</span>
+			            <span class="generate" itemprop="title">{{.Name}}</span>
 			        </a>
 			    </li>
 			</ol>
@@ -87,12 +87,12 @@
 
 			<section>
 				<section>
-				<h2>{{.Name}}</h2>
-                <h3>{{.Description}}<h3>
+				<h2 class="generate">{{.Name}}</h2>
+                <h3 class="generate">{{.Description}}<h3>
 				<h4>Clues</h4>
                 <ol>
                     {{range .Clues}}
-					<li>
+					<li class="generate">
                         <stong>{{.Description}}</strong>
                         <em>{{.Name}}</em>
                         <img src="{{.Photo.URL}}" style="height:250px;"/>

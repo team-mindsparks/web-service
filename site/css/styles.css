@@ -50,6 +50,10 @@ h1, h2, h3, h4, h5, h6 {
   color: #6666FF; 
 }
 
+.generate {
+    text-transform: capitalize;
+}
+
 li #clue_img {
     margin-left: -1.5em;
 }
