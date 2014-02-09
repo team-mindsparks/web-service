@@ -90,10 +90,10 @@
 				<h3 class="generate">{{.Name}}</h3>
                 <h4 class="generate">{{.Description}}<h4>
 				<h5>Clues</h5>
-                <ol>
+                <ol class="inline-list">
                     {{range .Clues}}
-					<li class="generate inline-list">
-                        <stong>{{.Description}}</strong>
+					<li class="generate">
+                        <stong>{{.Description}}</strong></br>
                         <em>{{.Name}}</em></br>
                         <img src="{{.Photo.URL}}" style="height:250px;"/>
 					</li>
