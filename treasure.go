@@ -11,6 +11,13 @@ type TreasureHunts struct {
 	*sync.Mutex
 }
 
+func (t *TreasureHunts) Reset() {
+	t.Lock()
+	defer t.Unlock()
+	t.hunts = map[string]*Hunt{}
+	t.photos = map[string]Photo{}
+}
+
 // create a new hunt
 func (t *TreasureHunts) NewHunt(h Hunt) error {
 	t.Lock()

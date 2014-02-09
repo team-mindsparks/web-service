@@ -27,11 +27,19 @@ func (s *Service) InitRoutes() {
 	gr.HandleFunc("/hunts/{hunt_title}", s.GetHunt)
 	gr.HandleFunc("/hunts/{hunt_title}/clue", s.NewClue)
 	gr.HandleFunc("/photos", s.GetPhotos)
+	gr.HandleFunc("/reset-magic", s.GetReset)
 
 	pr := s.r.Methods("POST").Subrouter()
 	pr.HandleFunc("/photo", s.PostPhoto)
 	pr.HandleFunc("/hunt", s.PostHunt)
 	pr.HandleFunc("/hunts/{hunt_title}/clue", s.PostClue)
+}
+
+// GET /reset
+//
+// REMOVES ALL HUNTS!
+func (s *Service) GetReset(w http.ResponseWriter, r *http.Request) {
+	s.t.Reset()
 }
 
 // GET /hunts
@@ -114,7 +122,7 @@ func (s *Service) PostHunt(w http.ResponseWriter, r *http.Request) {
 
 	// try to create a new hunt
 	h := Hunt{}
-	if h.Name = r.PostFormValue("title"); len(h.Name) == 0 {
+	if h.Name = strings.TrimSpace(r.PostFormValue("title")); len(h.Name) == 0 {
 		http.Error(w, "Invalid hunt name", http.StatusBadRequest)
 		return
 	}
