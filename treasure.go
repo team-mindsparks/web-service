@@ -76,6 +76,7 @@ type Clue struct {
 	Photo       Photo  `json:"photo"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	Fact        string `json:"fact"`
 }
 
 type Photo struct {
