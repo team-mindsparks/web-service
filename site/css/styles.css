@@ -23,6 +23,7 @@ figcaption {
 #breadcrumbs {
     font-family: 'Open Sans', sans-serif;
     color:#CCC;
+    max-width: 100%;
 }
 
 .panel {
