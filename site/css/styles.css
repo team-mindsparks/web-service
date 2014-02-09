@@ -25,6 +25,10 @@ figcaption {
     color:#CCC;
 }
 
-#breadcrumbs li {
-    list-style-type:none;
+.panel {
+    margin-top: 1.5em;
+}
+
+button, .button {
+    color: #6666FF;
 }
