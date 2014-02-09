@@ -37,6 +37,7 @@
 		      <li class="has-form signinform">
 			    <form action="" method="post">
 			      <div class="row collapse">
+			        
 			        <div class="large-4 columns username">
 			          <input type="text" placeholder="Username" name="username">
 			        </div>
@@ -97,11 +98,11 @@
 				<h4>Create New Clue</h3>
 
 				<label>Clue Name
-	        		<input type="text" name="name" placeholder="a name for the clue">
+	        		<input type="text" name="name" placeholder="A name for the clue">
 	      		</label>
 
 	      		<label>Description
-	        		<input type="text" name="description" placeholder="the clue itself">
+	        		<input type="text" name="description" placeholder="The clue itself">
 	      		</label>
 
                 <label>Clue Fact
@@ -116,12 +117,12 @@
 	        		<input type="text" placeholder="Number">
 	      		</label> -->
 
-	      		<label class="small-block-grid-3">Select Clue Image</label>
+	      		<label>Select Clue Image</label>
                 {{range .Photos}}
       			   <img src="{{.URL}}" style="height:300px;">
       			   <input type="radio" name="photo_uuid" value="{{.UUID}}">
                 {{end}}
-	      		<input type="submit" value="Add" name="add" class="button">
+	      		<input type="submit" value="Add" name="add" class="button small">
 
 			</section>
 
